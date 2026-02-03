@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Be My Valentine 💖</title>
+  <title>Please Forgive Me 💙</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -14,61 +14,50 @@
     body {
       margin: 0;
       height: 100vh;
-      background: radial-gradient(circle at top, #ffafbd, #ffc3a0);
-      overflow: hidden;
+      background: linear-gradient(135deg, #cfd9df, #e2ebf0);
       display: flex;
-      align-items: center;
       justify-content: center;
-    }
-
-    /* Floating hearts */
-    .heart {
-      position: absolute;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-    }
-
-    @keyframes floatUp {
-      from {
-        transform: translateY(100vh) scale(0.6);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-10vh) scale(1.2);
-        opacity: 0;
-      }
+      align-items: center;
+      overflow: hidden;
     }
 
     .card {
       background: white;
       padding: 30px;
-      border-radius: 25px;
-      text-align: center;
+      border-radius: 22px;
       max-width: 360px;
       width: 90%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-      animation: pop 0.6s ease;
-      z-index: 10;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease;
     }
 
-    @keyframes pop {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     img {
-      width: 200px;
+      width: 180px;
       margin-bottom: 15px;
     }
 
     h1 {
       font-size: 24px;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #475569;
       margin-bottom: 20px;
-      color: #e11d48;
     }
 
     .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
       position: relative;
       height: 60px;
     }
@@ -77,119 +66,91 @@
       padding: 10px 22px;
       border-radius: 30px;
       border: none;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
     }
 
     #yesBtn {
-      background: #22c55e;
+      background: #38bdf8;
       color: white;
     }
 
     #yesBtn:hover {
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
 
     #noBtn {
-      background: #ef4444;
+      background: #94a3b8;
       color: white;
       position: absolute;
-      left: 140px;
+      right: 0;
     }
 
     .hidden {
       display: none;
     }
 
-    .final {
-      animation: glow 1.5s infinite alternate;
-    }
-
-    @keyframes glow {
-      from { box-shadow: 0 0 10px #ff5e78; }
-      to { box-shadow: 0 0 30px #ff5e78; }
+    .glow {
+      box-shadow: 0 0 25px rgba(56,189,248,0.6);
     }
   </style>
 </head>
 <body>
 
   <div class="card" id="card">
-    <img id="gif" src="https://media.tenor.com/RBa37_6ApVcAAAAi/cute-adorable.gif">
-    <h1 id="text">Will you be my Valentine? 💕</h1>
+    <img id="gif" src="https://media.tenor.com/4z2Y8Jk6Z6sAAAAi/sorry-bear.gif">
+    <h1 id="title">Please forgive me 💙</h1>
+    <p id="message">
+      I know I made a mistake…<br>
+      I never wanted to hurt you 🫂
+    </p>
 
     <div class="buttons">
-      <button id="yesBtn">Yes 💖</button>
-      <button id="noBtn">No 🙈</button>
+      <button id="yesBtn">It’s okay 🤍</button>
+      <button id="noBtn">Still hurt 😔</button>
     </div>
   </div>
 
-  <audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7bba0c8d98.mp3"></audio>
-
   <script>
-    // Floating hearts
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💗";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
-    }, 300);
-
     const noTexts = [
-      "No 🙈",
-      "Are you sure? 😳",
-      "Think again 🥺",
-      "Pleaseeee 💕",
-      "Don’t be mean 😭",
-      "My heart 💔",
-      "I’ll cry fr 😢",
-      "Okay you win 😵"
+      "Still hurt 😔",
+      "Need time…",
+      "Not yet 😞",
+      "I'm trying…",
+      "Almost…",
+      "One more try?"
     ];
 
-    let noClick = 0;
+    let noCount = 0;
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const text = document.getElementById("text");
+    const title = document.getElementById("title");
+    const message = document.getElementById("message");
     const gif = document.getElementById("gif");
-    const music = document.getElementById("music");
     const card = document.getElementById("card");
 
     noBtn.addEventListener("mouseover", () => {
-      noBtn.style.left = Math.random() * 200 + "px";
-      noBtn.style.top = Math.random() * 40 + "px";
-      if (noClick < noTexts.length) {
-        noBtn.innerText = noTexts[noClick];
-        noClick++;
+      noBtn.style.left = Math.random() * 60 + "%";
+      if (noCount < noTexts.length) {
+        noBtn.innerText = noTexts[noCount];
+        noCount++;
       }
     });
 
     yesBtn.addEventListener("click", () => {
-      gif.src = "https://media1.tenor.com/m/53jaNOrVEhgAAAAC/woah-surprised.gif";
-      text.innerHTML = "YAYYYY!!! 💃💖<br>You just made my heart the happiest 😘";
+      gif.src = "https://media.tenor.com/8r6R0Uq4P_EAAAAi/thank-you-hug.gif";
+      title.innerText = "Thank you… 💙";
+      message.innerHTML = `
+        Your forgiveness means everything to me.<br>
+        I promise to do better 🤞<br>
+        Always.
+      `;
       noBtn.classList.add("hidden");
-      yesBtn.innerText = "FOREVER ❤️";
-      card.classList.add("final");
-      music.play();
-      launchHearts();
+      yesBtn.innerText = "🤍";
+      card.classList.add("glow");
     });
-
-    function launchHearts() {
-      for (let i = 0; i < 40; i++) {
-        const h = document.createElement("div");
-        h.innerText = "❤️";
-        h.style.position = "fixed";
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.top = "0";
-        h.style.fontSize = Math.random() * 25 + 15 + "px";
-        h.style.animation = "floatUp 2s linear";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 2000);
-      }
-    }
   </script>
 
 </body>
